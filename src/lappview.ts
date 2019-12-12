@@ -7,20 +7,17 @@
 
 import {Live2DCubismFramework as cubismMatrix44} from "../Framework/math/cubismmatrix44";
 import {Live2DCubismFramework as cubismviewmatrix} from "../Framework/math/cubismviewmatrix";
-import Csm_CubismViewMatrix = cubismviewmatrix.CubismViewMatrix;
-import Csm_CubismMatrix44 = cubismMatrix44.CubismMatrix44;
 import {TouchManager} from "./touchmanager";
 import {LAppDefine} from "./lappdefine";
 import {LAppLive2DManager} from "./lapplive2dmanager";
-import {LAppDelegate, canvas, gl} from "./lappdelegate";
-import {LAppSprite} from "./lappsprite";
-import {TextureInfo} from "./lapptexturemanager";
+import {canvas, gl, LAppDelegate} from "./lappdelegate";
 import {LAppPal} from "./lapppal";
+import Csm_CubismViewMatrix = cubismviewmatrix.CubismViewMatrix;
+import Csm_CubismMatrix44 = cubismMatrix44.CubismMatrix44;
 
 export class LAppView {
     constructor() {
         this._programId = null;
-        this._back = null;
         this._touchManager = new TouchManager();
         this._deviceToScreen = new Csm_CubismMatrix44();
         this._viewMatrix = new Csm_CubismViewMatrix();
@@ -58,39 +55,18 @@ export class LAppView {
         this._viewMatrix = null;
         this._touchManager = null;
         this._deviceToScreen = null;
-        this._back.release();
-        this._back = null;
         gl.deleteProgram(this._programId);
         this._programId = null;
     }
 
     public render(): void {
         gl.useProgram(this._programId);
-        if (this._back) {
-            this._back.render(this._programId);
-        }
         gl.flush();
         let live2DManager: LAppLive2DManager = LAppLive2DManager.getInstance();
         live2DManager.onUpdate();
     }
 
     public initializeSprite(): void {
-        let width: number = canvas.width;
-        let height: number = canvas.height;
-
-        let textureManager = LAppDelegate.getInstance().getTextureManager();
-        const resourcesPath = LAppDefine.ResourcesPath;
-
-        let initBackGroundTexture = (textureInfo: TextureInfo): void => {
-            let x: number = width * 0.5;
-            let y: number = height * 0.5;
-
-            let fwidth = textureInfo.width * 2.0;
-            let fheight = height * 0.95;
-            this._back = new LAppSprite(x, y, fwidth, fheight, textureInfo.id);
-        };
-        textureManager.createTextureFromPngFile(resourcesPath + LAppDefine.BackImageName, false, initBackGroundTexture);
-
         if (this._programId == null) {
             this._programId = LAppDelegate.getInstance().createShader();
         }
@@ -141,10 +117,6 @@ export class LAppView {
                 LAppPal.printLog("[APP]touchesEnded x: {0} y: {1}", x, y);
             }
             live2DManager.onTap(x, y);
-
-            // if (this._gear.isHit(pointX, pointY)) {
-            //     live2DManager.nextScene();
-            // }
         }
     }
 
@@ -189,8 +161,6 @@ export class LAppView {
     _deviceToScreen: Csm_CubismMatrix44;    // デバイスからスクリーンへの行列
     _viewMatrix: Csm_CubismViewMatrix;      // viewMatrix
     _programId: WebGLProgram;               // シェーダID
-    _back: LAppSprite;                      // 背景画像
-    _gear: LAppSprite;                      // ギア画像
     _changeModel: boolean;                  // モデル切り替えフラグ
     _isClick: boolean;                      // クリック中
 }

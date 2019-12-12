@@ -27,18 +27,7 @@ export namespace LAppDefine
     // 相対パス
     export const ResourcesPath: string = "./Resources/";
 
-    // モデルの後ろにある背景の画像ファイル
-    export const BackImageName: string = "back_class_normal.png";
 
-    // 歯車
-    export const GearImageName: string = "icon_gear.png";
-
-    // 終了ボタン
-    export const PowerImageName: string = "CloseNormal.png";
-
-    // モデル定義---------------------------------------------
-    // モデルを配置したディレクトリ名の配列
-    // ディレクトリ名とmodel3.jsonの名前を一致させておくこと
     export const ModelDir: string[] = [
         "Hiyori",
     ]

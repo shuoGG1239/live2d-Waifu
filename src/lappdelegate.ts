@@ -84,7 +84,6 @@ export class LAppDelegate {
         gl = canvas.getContext("webgl") || canvas.getContext("experimental-webgl");
 
         if (!gl) {
-            alert("WebGLを初期化できません。ブラウザはサポートしていないようです。");
             gl = null;
             return false;
         }
@@ -94,28 +93,20 @@ export class LAppDelegate {
 
         gl.enable(gl.BLEND);
         gl.blendFunc(gl.SRC_ALPHA, gl.ONE_MINUS_SRC_ALPHA);
-        gl.clearColor(255, 255, 255, 0);
         let supportTouch: boolean = 'ontouchend' in canvas;
 
         if (supportTouch) {
-            // タッチ関連コールバック関数登録
             canvas.ontouchstart = onTouchBegan;
             canvas.ontouchmove = onTouchMoved;
             canvas.ontouchend = onTouchEnded;
             canvas.ontouchcancel = onTouchCancel;
         } else {
-            // マウス関連コールバック関数登録
             canvas.onmousedown = onClickBegan;
             canvas.onmousemove = onMouseMoved;
             canvas.onmouseup = onClickEnded;
         }
-
-        // AppViewの初期化
         this._view.initialize();
-
-        // Cubism SDKの初期化
         this.initializeCubism();
-
         return true;
     }
 
@@ -129,52 +120,26 @@ export class LAppDelegate {
         Csm_CubismFramework.dispose();
     }
 
-    /**
-     * 実行処理。
-     */
     public run(): void {
-        // メインループ
         let loop = () => {
-            // インスタンスの有無の確認
             if (s_instance == null) {
                 return;
             }
-
-            // 時間更新
             LAppPal.updateTime();
-
-            // 画面の初期化
-            gl.clearColor(0.0, 0.0, 0.0, 1.0);
-
-            // 深度テストを有効化
+            gl.clearColor(0.0, 0.0, 0.0, 0); // 透明背景
             gl.enable(gl.DEPTH_TEST);
-
-            // 近くにある物体は、遠くにある物体を覆い隠す
             gl.depthFunc(gl.LEQUAL);
-
-            // カラーバッファや深度バッファをクリアする
             gl.clear(gl.COLOR_BUFFER_BIT | gl.DEPTH_BUFFER_BIT);
-
             gl.clearDepth(1.0);
-
-            // 透過設定
             gl.enable(gl.BLEND);
             gl.blendFunc(gl.SRC_ALPHA, gl.ONE_MINUS_SRC_ALPHA);
-
-            // 描画更新
             this._view.render();
-
-            // ループのために再帰呼び出し
             requestAnimationFrame(loop);
         };
         loop();
     }
 
-    /**
-     * シェーダーを登録する。
-     */
     public createShader(): WebGLProgram {
-        // バーテックスシェーダーのコンパイル
         let vertexShaderId = gl.createShader(gl.VERTEX_SHADER);
 
         if (vertexShaderId == null) {
@@ -242,9 +207,6 @@ export class LAppDelegate {
 
 }
 
-/**
- * クリックしたときに呼ばれる。
- */
 function onClickBegan(e: MouseEvent): void {
     if (!LAppDelegate.getInstance()._view) {
         LAppPal.printLog("view notfound");
@@ -258,9 +220,6 @@ function onClickBegan(e: MouseEvent): void {
     LAppDelegate.getInstance()._view.onTouchesBegan(posX, posY);
 }
 
-/**
- * マウスポインタが動いたら呼ばれる。
- */
 function onMouseMoved(e: MouseEvent): void {
     if (!LAppDelegate.getInstance()._captured) {
         return;
@@ -278,9 +237,6 @@ function onMouseMoved(e: MouseEvent): void {
     LAppDelegate.getInstance()._view.onTouchesMoved(posX, posY);
 }
 
-/**
- * クリックが終了したら呼ばれる。
- */
 function onClickEnded(e: MouseEvent): void {
     LAppDelegate.getInstance()._captured = false;
     if (!LAppDelegate.getInstance()._view) {
@@ -297,9 +253,6 @@ function onClickEnded(e: MouseEvent): void {
 }
 
 
-/**
- * タッチしたときに呼ばれる。
- */
 function onTouchBegan(e: TouchEvent): void {
     if (!LAppDelegate.getInstance()._view) {
         LAppPal.printLog("view notfound");
@@ -314,9 +267,6 @@ function onTouchBegan(e: TouchEvent): void {
     LAppDelegate.getInstance()._view.onTouchesBegan(posX, posY);
 }
 
-/**
- * スワイプすると呼ばれる。
- */
 function onTouchMoved(e: TouchEvent): void {
     if (!LAppDelegate.getInstance()._captured) {
         return;
@@ -335,9 +285,6 @@ function onTouchMoved(e: TouchEvent): void {
     LAppDelegate.getInstance()._view.onTouchesMoved(posX, posY);
 }
 
-/**
- * タッチが終了したら呼ばれる。
- */
 function onTouchEnded(e: TouchEvent): void {
     LAppDelegate.getInstance()._captured = false;
 
@@ -354,9 +301,7 @@ function onTouchEnded(e: TouchEvent): void {
     LAppDelegate.getInstance()._view.onTouchesEnded(posX, posY);
 }
 
-/**
- * タッチがキャンセルされると呼ばれる。
- */
+
 function onTouchCancel(e: TouchEvent): void {
     LAppDelegate.getInstance()._captured = false;
 
