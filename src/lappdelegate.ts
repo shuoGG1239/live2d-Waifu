@@ -1,40 +1,23 @@
-/**
- * Copyright(c) Live2D Inc. All rights reserved.
- *
- * Use of this source code is governed by the Live2D Open Software license
- * that can be found at https://www.live2d.com/eula/live2d-open-software-license-agreement_en.html.
- */
-
-import {
-    Live2DCubismFramework as live2dcubismframework,
-    Option as Csm_Option
-} from "../Framework/live2dcubismframework";
-import Csm_CubismFramework = live2dcubismframework.CubismFramework;
+import {Live2DCubismFramework as live2dcubismframework, Option as Csm_Option} from "../Framework/live2dcubismframework";
 import {LAppView} from "./lappview";
 import {LAppPal} from "./lapppal";
 import {LAppTextureManager} from "./lapptexturemanager";
-import {LAppLive2DManager} from "./lapplive2dmanager";
 import {LAppDefine} from "./lappdefine";
+import Csm_CubismFramework = live2dcubismframework.CubismFramework;
 
 export let canvas: HTMLCanvasElement = null;
 export let s_instance: LAppDelegate = null;
 export let gl: WebGLRenderingContext = null;
 export let frameBuffer: WebGLFramebuffer = null;
 
-/**
- * アプリケーションクラス。
- * Cubism SDKの管理を行う。
- */
 export class LAppDelegate {
-
-
-    _cubismOption: Csm_Option;          // Cubism SDK Option
-    _view: LAppView;                    // View情報
-    _captured: boolean;                 // クリックしているか
-    _mouseX: number;                    // マウスX座標
-    _mouseY: number;                    // マウスY座標
-    _isEnd: boolean;                    // APP終了しているか
-    _textureManager: LAppTextureManager;// テクスチャマネージャー
+    _cubismOption: Csm_Option;
+    _view: LAppView;
+    _captured: boolean;                 // 是否click了
+    _mouseX: number;
+    _mouseY: number;
+    _isEnd: boolean;                    // App end了?
+    _textureManager: LAppTextureManager;
 
     constructor() {
         this._captured = false;
@@ -47,27 +30,19 @@ export class LAppDelegate {
         this._textureManager = new LAppTextureManager();
     }
 
-    /**
-     * Cubism SDKの初期化
-     */
     public initializeCubism(): void {
-        // setup cubism
         this._cubismOption.logFunction = LAppPal.printMessage;
         this._cubismOption.loggingLevel = LAppDefine.CubismLoggingLevel;
         Csm_CubismFramework.startUp(this._cubismOption);
-
         Csm_CubismFramework.initialize();
-        LAppLive2DManager.getInstance();
         LAppPal.updateTime();
         this._view.initializeSprite();
     }
-
 
     public static getInstance(): LAppDelegate {
         if (s_instance == null) {
             s_instance = new LAppDelegate();
         }
-
         return s_instance;
     }
 
@@ -75,14 +50,12 @@ export class LAppDelegate {
         if (s_instance != null) {
             s_instance.release();
         }
-
         s_instance = null;
     }
 
     public initialize(): boolean {
-        canvas = <HTMLCanvasElement>document.getElementById("SAMPLE");
+        canvas = <HTMLCanvasElement>document.getElementById("WAIFU");
         gl = canvas.getContext("webgl") || canvas.getContext("experimental-webgl");
-
         if (!gl) {
             gl = null;
             return false;
@@ -116,7 +89,6 @@ export class LAppDelegate {
 
         this._view.release();
         this._view = null;
-        LAppLive2DManager.releaseInstance();
         Csm_CubismFramework.dispose();
     }
 
@@ -126,7 +98,7 @@ export class LAppDelegate {
                 return;
             }
             LAppPal.updateTime();
-            gl.clearColor(0.0, 0.0, 0.0, 0); // 透明背景
+            gl.clearColor(0.0, 0.0, 0.0, 0.5); // 透明背景
             gl.enable(gl.DEPTH_TEST);
             gl.depthFunc(gl.LEQUAL);
             gl.clear(gl.COLOR_BUFFER_BIT | gl.DEPTH_BUFFER_BIT);
@@ -161,7 +133,6 @@ export class LAppDelegate {
         gl.shaderSource(vertexShaderId, vertexShader);
         gl.compileShader(vertexShaderId);
 
-        // フラグメントシェーダのコンパイル
         let fragmentShaderId = gl.createShader(gl.FRAGMENT_SHADER);
 
         if (fragmentShaderId == null) {
@@ -181,7 +152,6 @@ export class LAppDelegate {
         gl.shaderSource(fragmentShaderId, fragmentShader);
         gl.compileShader(fragmentShaderId);
 
-        // プログラムオブジェクトの作成
         let programId = gl.createProgram();
         gl.attachShader(programId, vertexShaderId);
         gl.attachShader(programId, fragmentShaderId);
@@ -189,16 +159,10 @@ export class LAppDelegate {
         gl.deleteShader(vertexShaderId);
         gl.deleteShader(fragmentShaderId);
 
-        // リンク
         gl.linkProgram(programId);
-
         gl.useProgram(programId);
 
         return programId;
-    }
-
-    public getView(): LAppView {
-        return this._view;
     }
 
     public getTextureManager(): LAppTextureManager {

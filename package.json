@@ -1,9 +1,9 @@
 {
   "scripts": {
-    "build-framework": "npx webpack --config framework.webpack.config.js",
-    "watch-framework": "npx webpack --watch --config framework.webpack.config.js",
     "build-main": "npx webpack --config main.webpack.config.js",
     "watch-main": "npx webpack --watch --config main.webpack.config.js",
+    "build-framework": "npx webpack --config framework.webpack.config.js",
+    "watch-framework": "npx webpack --watch --config framework.webpack.config.js",
     "build-all": "npm-run-all build-framework build-main",
     "watch-all": "npm-run-all watch-framework watch-main",
     "http-server": "npx http-server"

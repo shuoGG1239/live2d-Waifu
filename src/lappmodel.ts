@@ -88,11 +88,6 @@ enum LoadStep {
  * モデル生成、機能コンポーネント生成、更新処理とレンダリングの呼び出しを行う。
  */
 export class LAppModel extends CubismUserModel {
-    /**
-     * model3.jsonが置かれたディレクトリとファイルパスからモデルを生成する
-     * @param dir
-     * @param fileName
-     */
     public loadAssets(dir: string, fileName: string): void {
         this._modelHomeDir = dir;
         const path: string = dir + fileName;
@@ -727,15 +722,7 @@ export class LAppModel extends CubismUserModel {
      */
     public doDraw(): void {
         if (this._model == null) return;
-
-        // キャンバスサイズを渡す
-        let viewport: number[] = [
-            0,
-            0,
-            canvas.width,
-            canvas.height
-        ];
-
+        let viewport: number[] = [0, 0, canvas.width, canvas.height];
         this.getRenderer().setRenderState(frameBuffer, viewport);
         this.getRenderer().drawModel();
     }
@@ -747,20 +734,14 @@ export class LAppModel extends CubismUserModel {
         if (this._model == null) {
             return;
         }
-
-        // 各読み込み終了後
+        /* 所有配置读完就可以开始绘制 */
         if (this._state == LoadStep.CompleteSetup) {
             matrix.multiplyByMatrix(this._modelMatrix);
-
             this.getRenderer().setMvpMatrix(matrix);
-
             this.doDraw();
         }
     }
 
-    /**
-     * コンストラクタ
-     */
     public constructor() {
         super();
 
