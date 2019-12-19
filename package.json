@@ -1,12 +1,38 @@
 {
+  "name": "liv2d-waifu",
+  "version": "0.0.1",
+  "description": "live2d老婆",
+  "main": "main.js",
   "scripts": {
     "build-main": "npx webpack --config main.webpack.config.js",
     "watch-main": "npx webpack --watch --config main.webpack.config.js",
     "build-framework": "npx webpack --config framework.webpack.config.js",
     "watch-framework": "npx webpack --watch --config framework.webpack.config.js",
     "build-all": "npm-run-all build-framework build-main",
-    "watch-all": "npm-run-all watch-framework watch-main",
-    "http-server": "npx http-server"
+    "watch-all": "npm-run-all watch-framework watch-main"
+  },
+  "build": {
+    "productName": "liv2d-waifu",
+    "appId": "com.shuogg.live2dwaifu",
+    "directories": {
+      "output": "build"
+    },
+    "files": [
+      "Assets/",
+      "index.html",
+      "main.js",
+      "node_modules/",
+      "package.json"
+    ],
+    "mac": {
+      "icon": "build/icons/waifu.icns"
+    },
+    "win": {
+      "icon": "build/icons/waifu.ico"
+    },
+    "linux": {
+      "icon": "build/icons"
+    }
   },
   "devDependencies": {
     "glob": "^7.1.4",
@@ -15,7 +41,9 @@
     "ts-loader": "^6.0.4",
     "typescript": "^3.5.3",
     "webpack": "^4.39.1",
-    "webpack-cli": "^3.3.6"
+    "webpack-cli": "^3.3.6",
+    "electron": "^7.0.0",
+    "electron-builder": "^21.2.0"
   },
   "dependencies": {
     "whatwg-fetch": "^3.0.0"

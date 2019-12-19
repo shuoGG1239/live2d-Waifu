@@ -98,7 +98,7 @@ export class LAppDelegate {
                 return;
             }
             LAppPal.updateTime();
-            gl.clearColor(0.0, 0.0, 0.0, 0.5); // 透明背景
+            gl.clearColor(0.0, 0.0, 0.0, 0.0); // 透明背景
             gl.enable(gl.DEPTH_TEST);
             gl.depthFunc(gl.LEQUAL);
             gl.clear(gl.COLOR_BUFFER_BIT | gl.DEPTH_BUFFER_BIT);

@@ -32,6 +32,7 @@ export class LAppView {
 
         this._viewMatrix.setScreenRect(left, right, bottom, top);
         let screenW: number = Math.abs(left - right);
+        LAppPal.printLog("screenW:{0} width:{1} height:{2} ratio:{3} left:{4} right{5} bottom:{6} top:{7}", screenW, width, height, ratio, left, right, bottom, top)
         this._deviceToScreen.scaleRelative(screenW / width, -screenW / width);
         this._deviceToScreen.translateRelative(-width * 0.5, -height * 0.5);
 
@@ -74,15 +75,12 @@ export class LAppView {
     public onTouchesMoved(pointX: number, pointY: number): void {
         let viewX: number = this.transformViewX(this._touchManager.getX());
         let viewY: number = this.transformViewY(this._touchManager.getY());
-
         this._touchManager.touchesMoved(pointX, pointY);
-
         LAppLive2DManager.getInstance().onDrag(viewX, viewY);
     }
 
     public onTouchesEnded(pointX: number, pointY: number): void {
         LAppLive2DManager.getInstance().onDrag(0.0, 0.0);
-
         {
             // single tap
             let x: number = this._deviceToScreen.transformX(this._touchManager.getX()); // 論理座標変換した座標を取得。
@@ -98,7 +96,7 @@ export class LAppView {
     /**
      * X座標をView座標に変換する。
      *
-     * @param deviceX デバイスX座標
+     * @param deviceX 设备的X坐标
      */
     public transformViewX(deviceX: number): number {
         let screenX: number = this._deviceToScreen.transformX(deviceX); // 論理座標変換した座標を取得。
@@ -108,7 +106,7 @@ export class LAppView {
     /**
      * Y座標をView座標に変換する。
      *
-     * @param deviceY デバイスY座標
+     * @param deviceY 设备的Y坐标
      */
     public transformViewY(deviceY: number): number {
         let screenY: number = this._deviceToScreen.transformY(deviceY); // 論理座標変換した座標を取得。
@@ -117,7 +115,7 @@ export class LAppView {
 
     /**
      * X座標をScreen座標に変換する。
-     * @param deviceX デバイスX座標
+     * @param deviceX 设备的X坐标
      */
     public transformScreenX(deviceX: number): number {
         return this._deviceToScreen.transformX(deviceX);
@@ -126,7 +124,7 @@ export class LAppView {
     /**
      * Y座標をScreen座標に変換する。
      *
-     * @param deviceY デバイスY座標
+     * @param deviceY 设备的Y坐标
      */
     public transformScreenY(deviceY: number): number {
         return this._deviceToScreen.transformY(deviceY);

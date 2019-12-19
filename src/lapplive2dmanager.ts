@@ -55,7 +55,8 @@ export class LAppLive2DManager {
         let projection: Csm_CubismMatrix44 = new Csm_CubismMatrix44();
         const width: number = canvas.width;
         const height: number = canvas.height;
-        projection.scale(1.0, width / height);
+        const factor: number = 5; // 调整这个比例以让live2d模型能适配canvas的比例s
+        projection.scale(factor, factor * width / height);
         if (this._viewMatrix != null) {
             projection.multiplyByMatrix(this._viewMatrix);
         }

@@ -30,6 +30,13 @@
 					"File": "motions/Hiyori_m05.motion3.json",
 					"FadeInTime": 0.5,
 					"FadeOutTime": 0.5
+				}
+			],
+			"TapBody": [
+				{
+					"File": "motions/Hiyori_m04.motion3.json",
+					"FadeInTime": 0.5,
+					"FadeOutTime": 0.5
 				},
 				{
 					"File": "motions/Hiyori_m06.motion3.json",
@@ -53,13 +60,6 @@
 				},
 				{
 					"File": "motions/Hiyori_m10.motion3.json",
-					"FadeInTime": 0.5,
-					"FadeOutTime": 0.5
-				}
-			],
-			"TapBody": [
-				{
-					"File": "motions/Hiyori_m04.motion3.json",
 					"FadeInTime": 0.5,
 					"FadeOutTime": 0.5
 				}
