@@ -376,7 +376,7 @@ export class LAppModel extends CubismUserModel {
     }
 
     private setupTextures(): void {
-        // iPhoneでのアルファ品質向上のためTypescriptではpremultipliedAlphaを採用
+        // 为了试iPhone的alpha有更好的效果使用premultipliedAlpha
         let usePremultiply: boolean = true;
 
         if (this._state == LoadStep.LoadTexture) {
@@ -427,7 +427,7 @@ export class LAppModel extends CubismUserModel {
         //--------------------------------------------------------------------------
         this._model.loadParameters();
         if (this._motionManager.isFinished()) {
-            // モーションの再生がない場合、待機モーションの中からランダムで再生する
+            // motion完事就随机触发idle motion
             this.startRandomMotion(LAppDefine.MotionGroupIdle, LAppDefine.PriorityIdle);
         } else {
             motionUpdated = this._motionManager.updateMotion(this._model, deltaTimeSeconds);   // 更新motion
@@ -435,7 +435,6 @@ export class LAppModel extends CubismUserModel {
         this._model.saveParameters();
         //--------------------------------------------------------------------------
 
-        // まばたき
         if (!motionUpdated) {
             if (this._eyeBlink != null) {
                 this._eyeBlink.updateParameters(this._model, deltaTimeSeconds); // 眨眼
@@ -445,39 +444,34 @@ export class LAppModel extends CubismUserModel {
             this._expressionManager.updateMotion(this._model, deltaTimeSeconds);
         }
 
-        // ドラッグによる変化
-        // ドラッグによる顔の向きの調整
-        this._model.addParameterValueById(this._idParamAngleX, this._dragX * 30);  // -30から30の値を加える
+        // 通过drag来调整脸部方向
+        this._model.addParameterValueById(this._idParamAngleX, this._dragX * 30);  // -30~30
         this._model.addParameterValueById(this._idParamAngleY, this._dragY * 30);
         this._model.addParameterValueById(this._idParamAngleZ, this._dragX * this._dragY * -30);
-
-        // ドラッグによる体の向きの調整
-        this._model.addParameterValueById(this._idParamBodyAngleX, this._dragX * 10);  // -10から10の値を加える
-
-        // ドラッグによる目の向きの調整
+        // 通过drag来调整身体方向
+        this._model.addParameterValueById(this._idParamBodyAngleX, this._dragX * 10);  // -10~10
+        // 通过drag来调整眼睛方向
         this._model.addParameterValueById(this._idParamEyeBallX, this._dragX); // -1から1の値を加える
         this._model.addParameterValueById(this._idParamEyeBallY, this._dragY);
 
-        // 呼吸など
+        // 呼吸
         if (this._breath != null) {
             this._breath.updateParameters(this._model, deltaTimeSeconds);
         }
 
-        // 物理演算の設定
+        // 物理设置
         if (this._physics != null) {
             this._physics.evaluate(this._model, deltaTimeSeconds);
         }
 
-        // リップシンクの設定
         if (this._lipsync) {
-            let value: number = 0;  // リアルタイムでリップシンクを行う場合、システムから音量を取得して、0~1の範囲で値を入力します。
+            let value: number = 0;  // lipSync通过系统获取音量并输入0到1之间的值
 
             for (let i: number = 0; i < this._lipSyncIds.getSize(); ++i) {
                 this._model.addParameterValueById(this._lipSyncIds.at(i), value, 0.8);
             }
         }
 
-        // ポーズの設定
         if (this._pose != null) {
             this._pose.updateParameters(this._model, deltaTimeSeconds);
         }
@@ -486,7 +480,7 @@ export class LAppModel extends CubismUserModel {
     }
 
     /**
-     * 引数で指定したモーションの再生を開始する
+     * start motion
      * @param group モーショングループ名
      * @param no グループ内の番号
      * @param priority 優先度
@@ -535,7 +529,7 @@ export class LAppModel extends CubismUserModel {
                     }
 
                     motion.setEffectIds(this._eyeBlinkIds, this._lipSyncIds);
-                    autoDelete = true;  // 終了時にメモリから削除
+                    autoDelete = true;
 
                     deleteBuffer(buffer, path);
                 }
@@ -549,9 +543,6 @@ export class LAppModel extends CubismUserModel {
     }
 
     /**
-     * ランダムに選ばれたモーションの再生を開始する。
-     * @param group モーショングループ名
-     * @param priority 優先度
      * @return 開始したモーションの識別番号を返す。個別のモーションが終了したか否かを判定するisFinished()の引数で使用する。開始できない時は[-1]
      */
     public startRandomMotion(group: string, priority: number): CubismMotionQueueEntryHandle {
@@ -564,11 +555,6 @@ export class LAppModel extends CubismUserModel {
         return this.startMotion(group, no, priority);
     }
 
-    /**
-     * 引数で指定した表情モーションをセットする
-     *
-     * @param expressionId 表情モーションのID
-     */
     public setExpression(expressionId: string): void {
         let motion: ACubismMotion = this._expressions.getValue(expressionId);
 
@@ -585,9 +571,6 @@ export class LAppModel extends CubismUserModel {
         }
     }
 
-    /**
-     * ランダムに選ばれた表情モーションをセットする
-     */
     public setRandomExpression(): void {
         if (this._expressions.getSize() == 0) {
             return;
@@ -605,7 +588,7 @@ export class LAppModel extends CubismUserModel {
     }
 
     /**
-     * イベントの発火を受け取る
+     * 生气
      */
     public motionEventFired(eventValue: csmString): void {
         CubismLogInfo("{0} is fired on LAppModel!!", eventValue.s);
@@ -687,10 +670,7 @@ export class LAppModel extends CubismUserModel {
                     this._motionCount++;
                     if (this._motionCount >= this._allMotionCount) {
                         this._state = LoadStep.LoadTexture;
-
-                        // 全てのモーションを停止する
                         this._motionManager.stopAllMotions();
-
                         this._updating = false;
                         this._initialized = true;
 
@@ -703,16 +683,10 @@ export class LAppModel extends CubismUserModel {
         }
     }
 
-    /**
-     * すべてのモーションデータを解放する。
-     */
     public releaseMotions(): void {
         this._motions.clear();
     }
 
-    /**
-     * 全ての表情データを解放する。
-     */
     public releaseExpressions(): void {
         this._expressions.clear();
     }

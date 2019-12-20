@@ -1,9 +1,4 @@
 {
-  "name": "liv2d-waifu",
-  "version": "0.1.0",
-  "description": "纸片人老婆",
-  "author": "shuoGG",
-  "main": "main.js",
   "scripts": {
     "build-main": "npx webpack --config main.webpack.config.js",
     "watch-main": "npx webpack --watch --config main.webpack.config.js",

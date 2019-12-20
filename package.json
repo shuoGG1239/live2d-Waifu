@@ -1,7 +1,7 @@
 {
-  "name": "liv2d-waifu-electron",
+  "name": "liv2d-waifu",
   "version": "0.1.0",
-  "description": "纸片人老婆(electron)",
+  "description": "纸片人老婆",
   "author": "shuoGG",
   "main": "main.js",
   "scripts": {
