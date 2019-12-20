@@ -19,7 +19,7 @@ module.exports = {
 
     output: {
         filename : '[name].js',
-        path: path.join(__dirname, 'dist/Framework/src')
+        path: path.join(__dirname, '../dist/Framework/src')
     },
 
     module: {

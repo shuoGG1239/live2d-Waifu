@@ -1,16 +1,10 @@
 {
-  "name": "liv2d-waifu",
+  "name": "liv2d-waifu-electron",
   "version": "0.1.0",
-  "description": "纸片人老婆",
+  "description": "纸片人老婆(electron)",
   "author": "shuoGG",
   "main": "main.js",
   "scripts": {
-    "build-main": "npx webpack --config main.webpack.config.js",
-    "watch-main": "npx webpack --watch --config main.webpack.config.js",
-    "build-framework": "npx webpack --config framework.webpack.config.js",
-    "watch-framework": "npx webpack --watch --config framework.webpack.config.js",
-    "build-all": "npm-run-all build-framework build-main",
-    "watch-all": "npm-run-all watch-framework watch-main",
     "start": "electron .",
     "pack": "electron-builder --dir",
     "dist": "electron-builder"
@@ -23,13 +17,12 @@
     },
     "files": [
       "assets/",
+      "resources/",
+      "dist/",
+      "node_modules/",
       "index.html",
       "main.js",
-      "node_modules/",
-      "package.json",
-      "resources/",
-      "core/",
-      "dist/"
+      "package.json"
     ],
     "win": {
       "icon": "Assets/icon.ico"
@@ -39,18 +32,8 @@
     }
   },
   "devDependencies": {
-    "glob": "^7.1.4",
-    "npm-run-all": "^4.1.5",
-    "serve": "^11.1.0",
-    "ts-loader": "^6.0.4",
-    "typescript": "^3.5.3",
-    "webpack": "^4.39.1",
-    "webpack-cli": "^3.3.6",
     "electron": "^7.0.0",
     "electron-builder": "^21.2.0"
-  },
-  "dependencies": {
-    "whatwg-fetch": "^3.0.0"
   },
   "private": true
 }
