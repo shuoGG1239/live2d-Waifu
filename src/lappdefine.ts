@@ -12,7 +12,7 @@ export namespace LAppDefine {
     export const ViewLogicalMaxBottom: number = -2.0;
     export const ViewLogicalMaxTop: number = 2.0;
 
-    export const ResourcesPath: string = "./Resources/";
+    export const ResourcesPath: string = "./resources/";
 
     export const ModelDir: string = "Hiyori";
 

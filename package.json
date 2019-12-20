@@ -1,7 +1,8 @@
 {
   "name": "liv2d-waifu",
-  "version": "0.1",
+  "version": "0.1.0",
   "description": "纸片人老婆",
+  "author": "shuoGG",
   "main": "main.js",
   "scripts": {
     "build-main": "npx webpack --config main.webpack.config.js",
@@ -21,11 +22,14 @@
       "output": "build"
     },
     "files": [
-      "Assets/",
+      "assets/",
       "index.html",
       "main.js",
       "node_modules/",
-      "package.json"
+      "package.json",
+      "resources/",
+      "core/",
+      "dist/"
     ],
     "win": {
       "icon": "Assets/icon.ico"

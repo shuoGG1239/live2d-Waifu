@@ -1,13 +1,23 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <meta name="viewport">
     <meta charset="utf-8"/>
     <title>ShuoGG AI Waifu</title>
+    <style>
+        #btn {
+            width: 30px;
+            height: 30px;
+            -webkit-app-region: drag;
+            position: relative;
+            left: -180px;
+            top: -900px;
+        }
+    </style>
 </head>
 <body>
-<canvas id="WAIFU" width="600" height="1450">
-</canvas>
+<canvas id="WAIFU" width="600" height="1450"></canvas>
+<button id="btn">+</button>
+
 <script src="./Core/live2dcubismcore.min.js"></script>
 <script src="./dist/index.js"></script>
 </body>
