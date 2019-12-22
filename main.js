@@ -1,5 +1,5 @@
 const path = require('path');
-const {app, BrowserWindow, TouchBar, ipcRenderer} = require('electron');
+const {app, BrowserWindow, TouchBar} = require('electron');
 const {TouchBarButton} = TouchBar;
 
 
@@ -62,8 +62,3 @@ app.on('second-instance', () => {
         mainWindow.focus()
     }
 });
-
-ipcRenderer.on('motion', (event, arg)=> {
-    console.log(event);
-    console.log(arg);
-})
