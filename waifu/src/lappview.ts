@@ -83,8 +83,8 @@ export class LAppView {
         LAppLive2DManager.getInstance().onDrag(0.0, 0.0);
         {
             // single tap
-            let x: number = this._deviceToScreen.transformX(this._touchManager.getX()); // 論理座標変換した座標を取得。
-            let y: number = this._deviceToScreen.transformY(this._touchManager.getY()); // 論理座標変化した座標を取得。
+            let x: number = this._deviceToScreen.transformX(this._touchManager.getX());
+            let y: number = this._deviceToScreen.transformY(this._touchManager.getY());
 
             if (LAppDefine.DebugTouchLogEnable) {
                 LAppPal.printLog("[APP]touchesEnded x: {0} y: {1}", x, y);
@@ -93,39 +93,20 @@ export class LAppView {
         }
     }
 
-    /**
-     * X座標をView座標に変換する。
-     *
-     * @param deviceX 设备的X坐标
-     */
     public transformViewX(deviceX: number): number {
-        let screenX: number = this._deviceToScreen.transformX(deviceX); // 論理座標変換した座標を取得。
-        return this._viewMatrix.invertTransformX(screenX);  // 拡大、縮小、移動後の値。
+        let screenX: number = this._deviceToScreen.transformX(deviceX);
+        return this._viewMatrix.invertTransformX(screenX);  // 扩大/缩小/移动后的值
     }
 
-    /**
-     * Y座標をView座標に変換する。
-     *
-     * @param deviceY 设备的Y坐标
-     */
     public transformViewY(deviceY: number): number {
-        let screenY: number = this._deviceToScreen.transformY(deviceY); // 論理座標変換した座標を取得。
+        let screenY: number = this._deviceToScreen.transformY(deviceY);
         return this._viewMatrix.invertTransformY(screenY);
     }
 
-    /**
-     * X座標をScreen座標に変換する。
-     * @param deviceX 设备的X坐标
-     */
     public transformScreenX(deviceX: number): number {
         return this._deviceToScreen.transformX(deviceX);
     }
 
-    /**
-     * Y座標をScreen座標に変換する。
-     *
-     * @param deviceY 设备的Y坐标
-     */
     public transformScreenY(deviceY: number): number {
         return this._deviceToScreen.transformY(deviceY);
     }

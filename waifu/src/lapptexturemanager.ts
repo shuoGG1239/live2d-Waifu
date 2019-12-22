@@ -16,54 +16,33 @@ export class LAppTextureManager {
         this._textures = null;
     }
 
-    /**
-     * 画像読み込み
-     *
-     * @param fileName 読み込む画像ファイルパス名
-     * @param usePremultiply Premult処理を有効にするか
-     * @return 画像情報、読み込み失敗時はnullを返す
-     */
     public createTextureFromPngFile(fileName: string, usePremultiply: boolean, callback: any): void {
         // search loaded texture already
         for (let ite: csmVector_iterator<TextureInfo> = this._textures.begin(); ite.notEqual(this._textures.end()); ite.preIncrement()) {
             if (ite.ptr().fileName == fileName && ite.ptr().usePremultply == usePremultiply) {
-                // 2回目以降はキャッシュが使用される(待ち時間なし)
-                // WebKitでは同じImageのonloadを再度呼ぶには再インスタンスが必要
-                // 詳細：https://stackoverflow.com/a/5024181
+                // 同一张image若想onload两次, 第二次无法复用第一次的实例, 需要重新new
+                //https://stackoverflow.com/a/5024181
                 ite.ptr().img = new Image();
                 ite.ptr().img.onload = () => {
                     callback(ite.ptr());
-                }
+                };
                 ite.ptr().img.src = fileName;
                 return;
             }
         }
 
-        // データのオンロードをトリガーにする
         let img = new Image();
         img.onload = () => {
-            // テクスチャオブジェクトの作成
             let tex: WebGLTexture = gl.createTexture();
-
-            // テクスチャを選択
             gl.bindTexture(gl.TEXTURE_2D, tex);
-
-            // テクスチャにピクセルを書き込む
             gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MIN_FILTER, gl.LINEAR_MIPMAP_LINEAR);
             gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MAG_FILTER, gl.LINEAR);
-
-            // Premult処理を行わせる
             if (usePremultiply) {
                 gl.pixelStorei(gl.UNPACK_PREMULTIPLY_ALPHA_WEBGL, 1);
             }
 
-            // テクスチャにピクセルを書き込む
             gl.texImage2D(gl.TEXTURE_2D, 0, gl.RGBA, gl.RGBA, gl.UNSIGNED_BYTE, img);
-
-            // ミップマップを生成
             gl.generateMipmap(gl.TEXTURE_2D);
-
-            // テクスチャをバインド
             gl.bindTexture(gl.TEXTURE_2D, null);
 
             let textureInfo: TextureInfo = new TextureInfo();

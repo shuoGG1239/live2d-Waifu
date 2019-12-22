@@ -1,10 +1,3 @@
-/**
- * Copyright(c) Live2D Inc. All rights reserved.
- *
- * Use of this source code is governed by the Live2D Open Software license
- * that can be found at https://www.live2d.com/eula/live2d-open-software-license-agreement_en.html.
- */
-
 import {Live2DCubismFramework as live2dcubismframework} from "../Framework/live2dcubismframework";
 import {Live2DCubismFramework as cubismid} from "../Framework/id/cubismid";
 import {Live2DCubismFramework as cubismusermodel} from "../Framework/model/cubismusermodel";
@@ -23,6 +16,12 @@ import {Live2DCubismFramework as cubismmotionqueuemanager} from "../Framework/mo
 import {Live2DCubismFramework as csmstring} from "../Framework/type/csmstring";
 import {Live2DCubismFramework as csmrect} from "../Framework/type/csmrectf";
 import {CubismLogInfo} from "../Framework/utils/cubismdebug";
+
+import {LAppDefine} from "./lappdefine";
+import {LAppPal} from "./lapppal";
+import {canvas, frameBuffer, gl, LAppDelegate} from "./lappdelegate";
+import {TextureInfo} from "./lapptexturemanager";
+import "whatwg-fetch";
 import csmRect = csmrect.csmRect;
 import csmString = csmstring.csmString;
 import InvalidMotionQueueEntryHandleValue = cubismmotionqueuemanager.InvalidMotionQueueEntryHandleValue;
@@ -42,12 +41,6 @@ import CubismUserModel = cubismusermodel.CubismUserModel;
 import ICubismModelSetting = icubismmodelsetting.ICubismModelSetting;
 import CubismModelSettingJson = cubismmodelsettingjson.CubismModelSettingJson;
 import CubismDefaultParameterId = cubismdefaultparameterid;
-
-import {LAppDefine} from "./lappdefine";
-import {LAppPal} from "./lapppal";
-import {gl, canvas, frameBuffer, LAppDelegate} from "./lappdelegate";
-import {TextureInfo} from "./lapptexturemanager";
-import "whatwg-fetch";
 
 function createBuffer(path: string, callBack: any): void {
     LAppPal.loadFileAsBytes(path, callBack);
@@ -84,8 +77,7 @@ enum LoadStep {
 }
 
 /**
- * ユーザーが実際に使用するモデルの実装クラス<br>
- * モデル生成、機能コンポーネント生成、更新処理とレンダリングの呼び出しを行う。
+ * live2d模型载入/渲染/更新等
  */
 export class LAppModel extends CubismUserModel {
     public loadAssets(dir: string, fileName: string): void {
@@ -107,10 +99,7 @@ export class LAppModel extends CubismUserModel {
     }
 
     /**
-     * model3.jsonからモデルを生成する。
-     * model3.jsonの記述に従ってモデル生成、モーション、物理演算などのコンポーネント生成を行う。
-     *
-     * @param setting ICubismModelSettingのインスタンス
+     * 从model3.json中加载出model
      */
     private setupModel(setting: ICubismModelSetting): void {
         this._updating = true;
@@ -347,22 +336,20 @@ export class LAppModel extends CubismUserModel {
 
             let motionGroupCount: number = this._modelSetting.getMotionGroupCount();
 
-            // モーションの総数を求める
+            // motion总数
             for (let i: number = 0; i < motionGroupCount; i++) {
                 group[i] = this._modelSetting.getMotionGroupName(i);
                 this._allMotionCount += this._modelSetting.getMotionCount(group[i]);
             }
 
-            // モーションの読み込み
+            // 读取motion
             for (let i: number = 0; i < motionGroupCount; i++) {
                 this.preLoadMotionGroup(group[i]);
             }
 
-            // モーションがない場合
+            // 若没有motion
             if (motionGroupCount == 0) {
                 this._state = LoadStep.LoadTexture;
-
-                // 全てのモーションを停止する
                 this._motionManager.stopAllMotions();
 
                 this._updating = false;
@@ -428,7 +415,7 @@ export class LAppModel extends CubismUserModel {
         this._model.loadParameters();
         if (this._motionManager.isFinished()) {
             // motion完事就随机触发idle motion
-            this.startRandomMotion(LAppDefine.MotionGroupIdle, LAppDefine.PriorityIdle);
+            let h = this.startRandomMotion(LAppDefine.MotionGroupIdle, LAppDefine.PriorityIdle);
         } else {
             motionUpdated = this._motionManager.updateMotion(this._model, deltaTimeSeconds);   // 更新motion
         }
@@ -481,10 +468,6 @@ export class LAppModel extends CubismUserModel {
 
     /**
      * start motion
-     * @param group モーショングループ名
-     * @param no グループ内の番号
-     * @param priority 優先度
-     * @return 開始したモーションの識別番号を返す。個別のモーションが終了したか否かを判定するisFinished()の引数で使用する。開始できない時は[-1]
      */
     public startMotion(group: string, no: number, priority: number): CubismMotionQueueEntryHandle {
         if (priority == LAppDefine.PriorityForce) {
@@ -542,9 +525,6 @@ export class LAppModel extends CubismUserModel {
         return this._motionManager.startMotionPriority(motion, autoDelete, priority);
     }
 
-    /**
-     * @return 開始したモーションの識別番号を返す。個別のモーションが終了したか否かを判定するisFinished()の引数で使用する。開始できない時は[-1]
-     */
     public startRandomMotion(group: string, priority: number): CubismMotionQueueEntryHandle {
         if (this._modelSetting.getMotionCount(group) == 0) {
             return InvalidMotionQueueEntryHandleValue;
@@ -594,14 +574,6 @@ export class LAppModel extends CubismUserModel {
         CubismLogInfo("{0} is fired on LAppModel!!", eventValue.s);
     }
 
-    /**
-     * 当たり判定テスト
-     * 指定ＩＤの頂点リストから矩形を計算し、座標をが矩形範囲内か判定する。
-     *
-     * @param hitArenaName  当たり判定をテストする対象のID
-     * @param x             判定を行うX座標
-     * @param y             判定を行うY座標
-     */
     public hitTest(hitArenaName: string, x: number, y: number): boolean {
         // 透明時は当たり判定無し。
         if (this._opacity < 1) {
@@ -620,12 +592,6 @@ export class LAppModel extends CubismUserModel {
         return false;
     }
 
-    /**
-     * モーションデータをグループ名から一括でロードする。
-     * モーションデータの名前は内部でModelSettingから取得する。
-     *
-     * @param group モーションデータのグループ名
-     */
     public preLoadMotionGroup(group: string): void {
         for (let i: number = 0; i < this._modelSetting.getMotionCount(group); i++) {
             // ex) idle_0
@@ -692,7 +658,7 @@ export class LAppModel extends CubismUserModel {
     }
 
     /**
-     * モデルを描画する処理。モデルを描画する空間のView-Projection行列を渡す。
+     * 绘制model 通过绘制模型的空间的View-Projection矩阵
      */
     public doDraw(): void {
         if (this._model == null) return;
@@ -701,9 +667,6 @@ export class LAppModel extends CubismUserModel {
         this.getRenderer().drawModel();
     }
 
-    /**
-     * モデルを描画する処理。モデルを描画する空間のView-Projection行列を渡す。
-     */
     public draw(matrix: CubismMatrix44): void {
         if (this._model == null) {
             return;
@@ -746,29 +709,29 @@ export class LAppModel extends CubismUserModel {
         this._allMotionCount = 0;
     }
 
-    _modelSetting: ICubismModelSetting;      // モデルセッティング情報
-    _modelHomeDir: string;      // モデルセッティングが置かれたディレクトリ
-    _userTimeSeconds: number;   // デルタ時間の積算値[秒]
+    _modelSetting: ICubismModelSetting;
+    _modelHomeDir: string;
+    _userTimeSeconds: number;
 
-    _eyeBlinkIds: csmVector<CubismIdHandle>;  // モデルに設定された瞬き機能用パラメータID
-    _lipSyncIds: csmVector<CubismIdHandle>;   // モデルに設定されたリップシンク機能用パラメータID
+    _eyeBlinkIds: csmVector<CubismIdHandle>;
+    _lipSyncIds: csmVector<CubismIdHandle>;
 
-    _motions: csmMap<string, ACubismMotion>;        // 読み込まれているモーションのリスト
-    _expressions: csmMap<string, ACubismMotion>;    // 読み込まれている表情のリスト
+    _motions: csmMap<string, ACubismMotion>;// 从motions中读取出的motion实例
+    _expressions: csmMap<string, ACubismMotion>;    // 从expression中读取出的expression实例
 
     _hitArea: csmVector<csmRect>;
     _userArea: csmVector<csmRect>;
 
-    _idParamAngleX: CubismIdHandle;     // パラメータID: ParamAngleX
-    _idParamAngleY: CubismIdHandle;     // パラメータID: ParamAngleY
-    _idParamAngleZ: CubismIdHandle;     // パラメータID: ParamAngleZ
-    _idParamEyeBallX: CubismIdHandle;   // パラメータID: ParamEyeBallX
-    _idParamEyeBallY: CubismIdHandle;   // パラメータID: ParamEyeBAllY
-    _idParamBodyAngleX: CubismIdHandle; // パラメータID: ParamBodyAngleX
+    _idParamAngleX: CubismIdHandle;
+    _idParamAngleY: CubismIdHandle;
+    _idParamAngleZ: CubismIdHandle;
+    _idParamEyeBallX: CubismIdHandle;
+    _idParamEyeBallY: CubismIdHandle;
+    _idParamBodyAngleX: CubismIdHandle;
 
-    _state: number; // 現在のステータス管理用
-    _expressionCount: number; // 表情データカウント
-    _textureCount: number;   // テクスチャカウント
-    _motionCount: number;   // モーションデータカウント
-    _allMotionCount: number; // モーション総数
+    _state: number;
+    _expressionCount: number;
+    _textureCount: number;
+    _motionCount: number;
+    _allMotionCount: number;
 }
