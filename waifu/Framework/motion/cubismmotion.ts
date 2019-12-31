@@ -661,6 +661,11 @@ export namespace Live2DCubismFramework
                 // Segments
                 for (let segmentPosition: number = 0; segmentPosition < json.getMotionCurveSegmentCount(curveCount);)
                 {
+                    // 考虑某些motion.json如双生视界的TotalPointCount是错误的, 会导致溢出, 故加这段自动扩容作为临时处理
+                    if (this._motionData.points.getSize() <= (totalPointCount + 1))
+                    {
+                        this._motionData.points.updateSize(Math.floor(totalPointCount * 1.5), CubismMotionPoint, true)
+                    }
                     if (segmentPosition == 0)
                     {
                         this._motionData.segments.at(totalSegmentCount).basePointIndex = totalPointCount;
@@ -683,7 +688,6 @@ export namespace Live2DCubismFramework
                         {
                             this._motionData.segments.at(totalSegmentCount).segmentType = CubismMotionSegmentType.CubismMotionSegmentType_Linear;
                             this._motionData.segments.at(totalSegmentCount).evaluate = linearEvaluate;
-
                             this._motionData.points.at(totalPointCount).time = json.getMotionCurveSegment(curveCount, (segmentPosition + 1));
                             this._motionData.points.at(totalPointCount).value = json.getMotionCurveSegment(curveCount, (segmentPosition + 2));
 

@@ -415,7 +415,12 @@ export class LAppModel extends CubismUserModel {
         this._model.loadParameters();
         if (this._motionManager.isFinished()) {
             // motion完事就随机触发idle motion
-            let h = this.startRandomMotion(LAppDefine.MotionGroupIdle, LAppDefine.PriorityIdle);
+            let nowTs: number = Math.floor(new Date().getTime() / 1000);
+            if (nowTs % 8 == 0) {
+                this.startRandomMotion(LAppDefine.MotionGroupIdle, LAppDefine.PriorityIdle);
+            } else {
+                this.startMotion(LAppDefine.MotionGroupTapDefault, 0, LAppDefine.PriorityIdle)
+            }
         } else {
             motionUpdated = this._motionManager.updateMotion(this._model, deltaTimeSeconds);   // 更新motion
         }
@@ -438,7 +443,7 @@ export class LAppModel extends CubismUserModel {
         // 通过drag来调整身体方向
         this._model.addParameterValueById(this._idParamBodyAngleX, this._dragX * 10);  // -10~10
         // 通过drag来调整眼睛方向
-        this._model.addParameterValueById(this._idParamEyeBallX, this._dragX); // -1から1の値を加える
+        this._model.addParameterValueById(this._idParamEyeBallX, this._dragX); // -1~1
         this._model.addParameterValueById(this._idParamEyeBallY, this._dragY);
 
         // 呼吸
@@ -575,7 +580,7 @@ export class LAppModel extends CubismUserModel {
     }
 
     public hitTest(hitArenaName: string, x: number, y: number): boolean {
-        // 透明時は当たり判定無し。
+        // 透明则直接返回
         if (this._opacity < 1) {
             return false;
         }
