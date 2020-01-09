@@ -584,9 +584,7 @@ export class LAppModel extends CubismUserModel {
         if (this._opacity < 1) {
             return false;
         }
-
         const count: number = this._modelSetting.getHitAreasCount();
-
         for (let i: number = 0; i < count; i++) {
             if (this._modelSetting.getHitAreaName(i) == hitArenaName) {
                 const drawId: CubismIdHandle = this._modelSetting.getHitAreaId(i);

@@ -14,14 +14,17 @@ export namespace LAppDefine {
 
     export const ResourcesPath: string = "./resources/";
 
-    export const ModelDir: string = "l2d01.u";
+    export const ModelDir: string = "Hiyori";
 
     export const MotionGroupTapDefault: string = "Default";
     export const MotionGroupIdle: string = "Idle";
     export const MotionGroupTapBody: string = "TapBody";
+    export const MotionGroupTouchBreast: string = "TouchBreast";
 
     export const HitAreaNameHead: string = "Head";
     export const HitAreaNameBody: string = "Body";
+    export const HitAreaNameFace: string = "Face";
+    export const HitAreaNameBreast: string = "Breast";
 
     export const PriorityNone: number = 0;
     export const PriorityIdle: number = 1;

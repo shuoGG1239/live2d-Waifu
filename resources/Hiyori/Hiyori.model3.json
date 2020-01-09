@@ -10,6 +10,13 @@
 		"Pose": "Hiyori.pose3.json",
 		"UserData": "Hiyori.userdata3.json",
 		"Motions": {
+			"Default": [
+				{
+					"File": "motions/Hiyori_m01.motion3.json",
+					"FadeInTime": 0.5,
+					"FadeOutTime": 0.5
+				}
+			],
 			"Idle": [
 				{
 					"File": "motions/Hiyori_m01.motion3.json",

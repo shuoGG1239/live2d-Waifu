@@ -1,0 +1,137 @@
+{
+  "Version": 3,
+  "FileReferences": {
+    "Moc": "l2d8001.u.moc3",
+    "Textures": [
+      "textures/texture_00.png"
+    ],
+    "Physics": null,
+    "Motions": {
+      "Default": [
+        {
+          "File": "motions/Mgirl05_stand.motion3.json",
+          "FadeInTime": 0.5,
+          "FadeOutTime": 0.5
+        }
+      ],
+      "TapBody": [
+        {
+          "FadeInTime": 0.5,
+          "FadeOutTime": 0.5,
+          "File": "motions/Mgirl05_huishou.motion3.json"
+        },
+        {
+          "FadeInTime": 0.5,
+          "FadeOutTime": 0.5,
+          "File": "motions/Mgirl05_zhanshi2.motion3.json"
+        }
+      ],
+      "TouchBreast": [
+        {
+          "FadeInTime": 0.5,
+          "FadeOutTime": 0.5,
+          "File": "motions/Mgirl05_dianxiong.motion3.json"
+        }
+      ],
+      "Idle": [
+        {
+          "FadeInTime": 0.5,
+          "FadeOutTime": 0.5,
+          "File": "motions/Mgirl05_huaxin.motion3.json"
+        },
+        {
+          "FadeInTime": 0.5,
+          "FadeOutTime": 0.5,
+          "File": "motions/Mgirl05_chitiantianquan.motion3.json"
+        },
+        {
+          "FadeInTime": 0.5,
+          "FadeOutTime": 0.5,
+          "File": "motions/Mgirl05_songli.motion3.json"
+        },
+        {
+          "FadeInTime": 0.5,
+          "FadeOutTime": 0.5,
+          "File": "motions/Mgirl05_dianzuoshou.motion3.json"
+        },
+        {
+          "FadeInTime": 0.5,
+          "FadeOutTime": 0.5,
+          "File": "motions/Mgirl05_motouweixiao.motion3.json"
+        },
+        {
+          "FadeInTime": 0.5,
+          "FadeOutTime": 0.5,
+          "File": "motions/Mgirl05_motouhuiying.motion3.json"
+        },
+        {
+          "FadeInTime": 0.5,
+          "FadeOutTime": 0.5,
+          "File": "motions/Mgirl05_dianyoushou.motion3.json"
+        },
+        {
+          "FadeInTime": 0.5,
+          "FadeOutTime": 0.5,
+          "File": "motions/Mgirl05_dianjianjiagu.motion3.json"
+        },
+        {
+          "FadeInTime": 0.5,
+          "FadeOutTime": 0.5,
+          "File": "motions/Mgirl05_kanshuijingqiu.motion3.json"
+        },
+        {
+          "FadeInTime": 0.5,
+          "FadeOutTime": 0.5,
+          "File": "motions/Mgirl05_dianshuijingqiu.motion3.json"
+        },
+        {
+          "FadeInTime": 0.5,
+          "FadeOutTime": 0.5,
+          "File": "motions/Mgirl05_huayinfu.motion3.json"
+        },
+        {
+          "FadeInTime": 0.5,
+          "FadeOutTime": 0.5,
+          "File": "motions/Mgirl05_dakeshui.motion3.json"
+        },
+        {
+          "FadeInTime": 0.5,
+          "FadeOutTime": 0.5,
+          "File": "motions/Mgirl05_zhanshi1.motion3.json"
+        },
+        {
+          "FadeInTime": 0.5,
+          "FadeOutTime": 0.5,
+          "File": "motions/Mgirl05_tiaowang.motion3.json"
+        }
+      ]
+    }
+  },
+  "Groups": [
+    {
+      "Target": "Parameter",
+      "Name": "LipSync",
+      "Ids": [
+        "ParamMouthOpenY"
+      ]
+    },
+    {
+      "Target": "Parameter",
+      "Name": "EyeBlink",
+      "Ids": [
+        "ParamEyeLOpen",
+        "ParamEyeROpen"
+      ]
+    }
+  ],
+  "HitAreas": [
+    {
+      "Id": "D_PSD_47",
+      "Name": "Breast"
+    },
+    {
+      "Id": "D_PSD_95",
+      "Name": "Face"
+    }
+  ]
+}

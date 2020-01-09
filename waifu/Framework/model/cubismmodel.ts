@@ -424,9 +424,15 @@ export namespace Live2DCubismFramework
                 {
                     return drawableIndex;
                 }
+                // console.log(this._drawableIds.at(drawableIndex).getString())
             }
 
             return -1;
+        }
+
+        public getDrawableIds() :csmVector<CubismIdHandle>
+        {
+            return this._drawableIds
         }
 
         /**

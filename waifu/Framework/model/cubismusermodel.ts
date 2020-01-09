@@ -236,7 +236,6 @@ export namespace Live2DCubismFramework
         public isHit(drawableId: CubismIdHandle, pointX: number, pointY: number): boolean
         {
             const drawIndex: number = this._model.getDrawableIndex(drawableId);
-
             if(drawIndex < 0)
             {
                 return false; // 存在しない場合はfalse
@@ -279,7 +278,22 @@ export namespace Live2DCubismFramework
             const tx: number = this._modelMatrix.invertTransformX(pointX);
             const ty: number = this._modelMatrix.invertTransformY(pointY);
 
-            return ((left <= tx) && (tx <= right) && (top <= ty) && (ty <= bottom));
+            const _isHit: boolean = ((left <= tx) && (tx <= right) && (top <= ty) && (ty <= bottom));
+            if (_isHit) {
+                console.log()
+            }
+            return _isHit
+        }
+
+        public idBeHit(pointX: number, pointY: number) :string
+        {
+            const ids = this._model.getDrawableIds();
+            for (let i= 0; i<ids.getSize();i++) {
+                const id =  ids.at(i);
+                if (this.isHit(id, pointX, pointY)) {
+                    return id.getString().s
+                }
+            }
         }
 
         /**
