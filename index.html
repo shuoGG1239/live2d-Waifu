@@ -5,20 +5,32 @@
     <title>ShuoGG AI Waifu</title>
     <style>
         #btn {
+            float: right;
             width: 30px;
             height: 30px;
             -webkit-app-region: drag;
+        }
+
+        #view {
+            width: 660px;
+            height: 800px;
+            overflow: hidden;
+        }
+
+        #WAIFU {
             position: relative;
-            left: -450px;
-            top: -400px;
+            top: -185px;
         }
     </style>
 </head>
 <body>
-<canvas id="WAIFU" width="1000" height="1000"></canvas>
-<button id="btn">+</button>
+<div id="view">
+    <button id="btn">+</button>
+    <canvas id="WAIFU" width="1000" height="1000"></canvas>
+</div>
 
 <script src="./resources/live2dcubismcore.min.js"></script>
+<script src="./resources/effect.js"></script>
 <script src="./dist/index.js"></script>
 </body>
 </html>

@@ -17,8 +17,8 @@ let mainWindow;
 
 function createWindow() {
     mainWindow = new BrowserWindow({
-        width: 1000,
-        height: 1200,
+        width: 675,
+        height: 830,
         title: 'L2D-WaiFu',
         hasShadow: false,
         transparent: true,

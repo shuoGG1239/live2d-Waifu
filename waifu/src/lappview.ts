@@ -83,8 +83,8 @@ export class LAppView {
         LAppLive2DManager.getInstance().onDrag(0.0, 0.0);
         {
             // single tap
-            let x: number = this._deviceToScreen.transformX(this._touchManager.getX());
-            let y: number = this._deviceToScreen.transformY(this._touchManager.getY());
+            let x: number = this._deviceToScreen.transformX(pointX);
+            let y: number = this._deviceToScreen.transformY(pointY);
 
             if (LAppDefine.DebugTouchLogEnable) {
                 LAppPal.printLog("[APP]touchesEnded x: {0} y: {1}", x, y);

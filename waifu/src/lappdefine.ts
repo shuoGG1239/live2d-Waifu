@@ -14,7 +14,7 @@ export namespace LAppDefine {
 
     export const ResourcesPath: string = "./resources/";
 
-    export const ModelDir: string = "Hiyori";
+    export const ModelDir: string = "l2d8001.u";
 
     export const MotionGroupTapDefault: string = "Default";
     export const MotionGroupIdle: string = "Idle";

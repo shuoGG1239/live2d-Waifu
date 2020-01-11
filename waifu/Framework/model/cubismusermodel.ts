@@ -285,15 +285,18 @@ export namespace Live2DCubismFramework
             return _isHit
         }
 
-        public idBeHit(pointX: number, pointY: number) :string
+        public idBeHit(pointX: number, pointY: number) :Array<string>
         {
+            let allHit:Array<string> =  new Array<string>();
             const ids = this._model.getDrawableIds();
             for (let i= 0; i<ids.getSize();i++) {
                 const id =  ids.at(i);
                 if (this.isHit(id, pointX, pointY)) {
-                    return id.getString().s
+                    allHit.push(id.getString().s)
                 }
             }
+            allHit.sort();
+            return allHit
         }
 
         /**

@@ -416,7 +416,7 @@ export class LAppModel extends CubismUserModel {
         if (this._motionManager.isFinished()) {
             // motion完事就随机触发idle motion
             let nowTs: number = Math.floor(new Date().getTime() / 1000);
-            if (nowTs % 8 == 0) {
+            if (nowTs % 17 == 0) {
                 this.startRandomMotion(LAppDefine.MotionGroupIdle, LAppDefine.PriorityIdle);
             } else {
                 this.startMotion(LAppDefine.MotionGroupTapDefault, 0, LAppDefine.PriorityIdle)

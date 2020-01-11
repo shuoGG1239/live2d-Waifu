@@ -212,7 +212,8 @@ function onClickEnded(e: MouseEvent): void {
     let rect = (<Element>e.target).getBoundingClientRect();
     let posX: number = e.clientX - rect.left;
     let posY: number = e.clientY - rect.top;
-
+    console.log(posX, posY)
+    console.log(rect.left, rect.right)
     LAppDelegate.getInstance()._view.onTouchesEnded(posX, posY);
 }
 
