@@ -19,6 +19,7 @@ export namespace LAppDefine {
     export const MotionGroupTapDefault: string = "Default";
     export const MotionGroupIdle: string = "Idle";
     export const MotionGroupTapBody: string = "TapBody";
+    export const MotionGroupTapFace: string = "TapFace";
     export const MotionGroupTouchBreast: string = "TouchBreast";
 
     export const HitAreaNameHead: string = "Head";

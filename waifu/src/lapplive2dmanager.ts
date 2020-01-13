@@ -48,12 +48,12 @@ export class LAppLive2DManager {
         /* 摸头则表情变; 摸身子则动作变 */
         if (this._model.hitTest(LAppDefine.HitAreaNameHead, x, y)) {
             this._model.setRandomExpression();
-        } else if (this._model.hitTest(LAppDefine.HitAreaNameFace, x, y)) {
-            this._model.startRandomMotion(LAppDefine.MotionGroupTapBody, LAppDefine.PriorityNormal);
         } else if (this._model.hitTest(LAppDefine.HitAreaNameBreast, x, y)) {
             this._model.startRandomMotion(LAppDefine.MotionGroupTouchBreast, LAppDefine.PriorityNormal);
+        } else if (this._model.hitTest(LAppDefine.HitAreaNameFace, x, y)) {
+            this._model.startRandomMotion(LAppDefine.MotionGroupTapFace, LAppDefine.PriorityNormal);
         } else if (this._model.hitTest(LAppDefine.HitAreaNameBody, x, y)) {
-            this._model.startRandomMotion(LAppDefine.MotionGroupIdle, LAppDefine.PriorityNormal);
+            this._model.startRandomMotion(LAppDefine.MotionGroupTapBody, LAppDefine.PriorityNormal);
         }
     }
 
@@ -61,7 +61,7 @@ export class LAppLive2DManager {
         let projection: Csm_CubismMatrix44 = new Csm_CubismMatrix44();
         const width: number = canvas.width;
         const height: number = canvas.height;
-        const factor: number = 1.7; // 调整这个比例以让live2d模型能适配canvas的比例
+        const factor: number = 1.0; // 调整这个比例以让live2d模型能适配canvas的比例
         projection.scale(factor, factor * width / height);
         if (this._viewMatrix != null) {
             projection.multiplyByMatrix(this._viewMatrix);
