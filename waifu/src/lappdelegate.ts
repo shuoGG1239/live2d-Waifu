@@ -77,6 +77,7 @@ export class LAppDelegate {
             canvas.onmousedown = onClickBegan;
             canvas.onmousemove = onMouseMoved;
             canvas.onmouseup = onClickEnded;
+            canvas.onmouseout = onMouseOut
         }
         this._view.initialize();
         this.initializeCubism();
@@ -185,20 +186,21 @@ function onClickBegan(e: MouseEvent): void {
 }
 
 function onMouseMoved(e: MouseEvent): void {
+    const rect = (<Element>e.target).getBoundingClientRect();
+    const posX: number = e.clientX - rect.left;
+    const posY: number = e.clientY - rect.top;
+    LAppDelegate.getInstance()._view.onTouchesMoved(posX, posY);
     if (!LAppDelegate.getInstance()._captured) {
         return;
     }
-
     if (!LAppDelegate.getInstance()._view) {
         LAppPal.printLog("view notfound");
         return;
     }
+}
 
-    let rect = (<Element>e.target).getBoundingClientRect();
-    let posX: number = e.clientX - rect.left;
-    let posY: number = e.clientY - rect.top;
-
-    LAppDelegate.getInstance()._view.onTouchesMoved(posX, posY);
+function onMouseOut(e: MouseEvent): void {
+    LAppDelegate.getInstance()._view.onBlur();
 }
 
 function onClickEnded(e: MouseEvent): void {
@@ -212,8 +214,6 @@ function onClickEnded(e: MouseEvent): void {
     let rect = (<Element>e.target).getBoundingClientRect();
     let posX: number = e.clientX - rect.left;
     let posY: number = e.clientY - rect.top;
-    console.log(posX, posY)
-    console.log(rect.left, rect.right)
     LAppDelegate.getInstance()._view.onTouchesEnded(posX, posY);
 }
 

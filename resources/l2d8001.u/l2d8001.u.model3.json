@@ -21,6 +21,13 @@
           "File": "motions/Mgirl05_dianjianjiagu.motion3.json"
         }
       ],
+      "TapHead": [
+        {
+          "FadeInTime": 0.5,
+          "FadeOutTime": 0.5,
+          "File": "motions/Mgirl05_songli.motion3.json"
+        }
+      ],
       "TapBody": [
         {
           "FadeInTime": 0.5,
@@ -38,6 +45,11 @@
           "FadeInTime": 0.5,
           "FadeOutTime": 0.5,
           "File": "motions/Mgirl05_dianxiong.motion3.json"
+        },
+        {
+          "FadeInTime": 0.5,
+          "FadeOutTime": 0.5,
+          "File": "motions/Mgirl05_dianjianjiagu.motion3.json"
         }
       ],
       "Idle": [
@@ -54,17 +66,7 @@
         {
           "FadeInTime": 0.5,
           "FadeOutTime": 0.5,
-          "File": "motions/Mgirl05_songli.motion3.json"
-        },
-        {
-          "FadeInTime": 0.5,
-          "FadeOutTime": 0.5,
           "File": "motions/Mgirl05_dianzuoshou.motion3.json"
-        },
-        {
-          "FadeInTime": 0.5,
-          "FadeOutTime": 0.5,
-          "File": "motions/Mgirl05_motouweixiao.motion3.json"
         },
         {
           "FadeInTime": 0.5,
@@ -122,6 +124,10 @@
     {
       "Id": "D_PSD_40",
       "Name": "Body"
+    },
+    {
+      "Id": "D_PSD_97",
+      "Name": "Head"
     }
   ]
 }

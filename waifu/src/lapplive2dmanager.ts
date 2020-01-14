@@ -47,7 +47,8 @@ export class LAppLive2DManager {
         console.log(idStr + " is hit!");
         /* 摸头则表情变; 摸身子则动作变 */
         if (this._model.hitTest(LAppDefine.HitAreaNameHead, x, y)) {
-            this._model.setRandomExpression();
+            // this._model.setRandomExpression();
+            this._model.startRandomMotion(LAppDefine.MotionGroupTapHead, LAppDefine.PriorityNormal);
         } else if (this._model.hitTest(LAppDefine.HitAreaNameBreast, x, y)) {
             this._model.startRandomMotion(LAppDefine.MotionGroupTouchBreast, LAppDefine.PriorityNormal);
         } else if (this._model.hitTest(LAppDefine.HitAreaNameFace, x, y)) {

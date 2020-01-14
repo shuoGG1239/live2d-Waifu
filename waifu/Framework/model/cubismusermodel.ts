@@ -278,11 +278,7 @@ export namespace Live2DCubismFramework
             const tx: number = this._modelMatrix.invertTransformX(pointX);
             const ty: number = this._modelMatrix.invertTransformY(pointY);
 
-            const _isHit: boolean = ((left <= tx) && (tx <= right) && (top <= ty) && (ty <= bottom));
-            if (_isHit) {
-                console.log()
-            }
-            return _isHit
+            return (left <= tx) && (tx <= right) && (top <= ty) && (ty <= bottom);
         }
 
         public idBeHit(pointX: number, pointY: number) :Array<string>

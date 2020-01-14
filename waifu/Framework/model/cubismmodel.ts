@@ -424,7 +424,6 @@ export namespace Live2DCubismFramework
                 {
                     return drawableIndex;
                 }
-                // console.log(this._drawableIds.at(drawableIndex).getString())
             }
 
             return -1;

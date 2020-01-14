@@ -79,8 +79,12 @@ export class LAppView {
         LAppLive2DManager.getInstance().onDrag(viewX, viewY);
     }
 
-    public onTouchesEnded(pointX: number, pointY: number): void {
+    public onBlur() : void {
         LAppLive2DManager.getInstance().onDrag(0.0, 0.0);
+    }
+
+    public onTouchesEnded(pointX: number, pointY: number): void {
+        // LAppLive2DManager.getInstance().onDrag(0.0, 0.0);
         {
             // single tap
             let x: number = this._deviceToScreen.transformX(pointX);
