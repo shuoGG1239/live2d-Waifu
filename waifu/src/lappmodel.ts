@@ -17,6 +17,7 @@ import {Live2DCubismFramework as csmstring} from "../Framework/type/csmstring";
 import {Live2DCubismFramework as csmrect} from "../Framework/type/csmrectf";
 import {CubismLogInfo} from "../Framework/utils/cubismdebug";
 
+import {CafeGunGirlParam} from "./cafegungirldefine"
 import {LAppDefine} from "./lappdefine";
 import {LAppPal} from "./lapppal";
 import {canvas, frameBuffer, gl, LAppDelegate} from "./lappdelegate";
@@ -697,19 +698,22 @@ export class LAppModel extends CubismUserModel {
         this._hitArea = new csmVector<csmRect>();
         this._userArea = new csmVector<csmRect>();
 
-        // this._idParamAngleX = CubismFramework.getIdManager().getId(CubismDefaultParameterId.ParamAngleX);
-        // this._idParamAngleY = CubismFramework.getIdManager().getId(CubismDefaultParameterId.ParamAngleY);
-        // this._idParamAngleZ = CubismFramework.getIdManager().getId(CubismDefaultParameterId.ParamAngleZ);
-        // this._idParamEyeBallX = CubismFramework.getIdManager().getId(CubismDefaultParameterId.ParamEyeBallX);
-        // this._idParamEyeBallY = CubismFramework.getIdManager().getId(CubismDefaultParameterId.ParamEyeBallY);
-        // this._idParamBodyAngleX = CubismFramework.getIdManager().getId(CubismDefaultParameterId.ParamBodyAngleX);
-        this._idParamAngleX = CubismFramework.getIdManager().getId("PARAM_ANGLE_X");
-        this._idParamAngleY = CubismFramework.getIdManager().getId("PARAM_ANGLE_Y");
-        this._idParamAngleZ = CubismFramework.getIdManager().getId("PARAM_ANGLE_Z");
-        this._idParamEyeBallX = CubismFramework.getIdManager().getId("PARAM_EYE_BALL_X");
-        this._idParamEyeBallY = CubismFramework.getIdManager().getId("PARAM_EYE_BALL_Y");
-        this._idParamBodyAngleX = CubismFramework.getIdManager().getId("PARAM_BODY_ANGLE_X");
-
+        const isCafeGun: boolean = true;
+        if (isCafeGun) { // 双生视界的Paramid定义比较奇葩, 需要单独处理
+            this._idParamAngleX = CubismFramework.getIdManager().getId(CafeGunGirlParam.ParamAngleX);
+            this._idParamAngleY = CubismFramework.getIdManager().getId(CafeGunGirlParam.ParamAngleY);
+            this._idParamAngleZ = CubismFramework.getIdManager().getId(CafeGunGirlParam.ParamAngleZ);
+            this._idParamEyeBallX = CubismFramework.getIdManager().getId(CafeGunGirlParam.ParamEyeBallX);
+            this._idParamEyeBallY = CubismFramework.getIdManager().getId(CafeGunGirlParam.ParamEyeBallY);
+            this._idParamBodyAngleX = CubismFramework.getIdManager().getId(CafeGunGirlParam.ParamBodyAngleX);
+        } else {
+            this._idParamAngleX = CubismFramework.getIdManager().getId(CubismDefaultParameterId.ParamAngleX);
+            this._idParamAngleY = CubismFramework.getIdManager().getId(CubismDefaultParameterId.ParamAngleY);
+            this._idParamAngleZ = CubismFramework.getIdManager().getId(CubismDefaultParameterId.ParamAngleZ);
+            this._idParamEyeBallX = CubismFramework.getIdManager().getId(CubismDefaultParameterId.ParamEyeBallX);
+            this._idParamEyeBallY = CubismFramework.getIdManager().getId(CubismDefaultParameterId.ParamEyeBallY);
+            this._idParamBodyAngleX = CubismFramework.getIdManager().getId(CubismDefaultParameterId.ParamBodyAngleX);
+        }
         this._state = LoadStep.LoadAssets;
         this._expressionCount = 0;
         this._textureCount = 0;
