@@ -383,6 +383,7 @@ export namespace Live2DCubismFramework
         {
             const index: number = this.getParameterIndex(parameterId);
             this.addParameterValueByIndex(index, value, weight);
+            // console.log(index, value, weight)
         }
 
         /**
@@ -771,6 +772,15 @@ export namespace Live2DCubismFramework
                     this._drawableIds.pushBack(CubismFramework.getIdManager().getId(drawableIds[i]));
                 }
             }
+        }
+
+        public isMyParameterId(id : string) :boolean {
+            for (let s of this._model.parameters.ids) {
+                if (s == id) {
+                    return true
+                }
+            }
+            return false
         }
 
         /**

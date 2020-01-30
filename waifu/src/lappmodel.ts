@@ -123,6 +123,7 @@ export class LAppModel extends CubismUserModel {
                     buffer = arrayBuffer;
                     this.loadModel(buffer);
                     deleteBuffer(buffer, path);
+                    this.initParamIdByModel();
                     this._state = LoadStep.LoadExpression;
                     loadCubismExpression();
                 }
@@ -246,7 +247,7 @@ export class LAppModel extends CubismUserModel {
             breathParameters.pushBack(new BreathParameterData(this._idParamAngleY, 0.0, 8.0, 3.5345, 0.5));
             breathParameters.pushBack(new BreathParameterData(this._idParamAngleZ, 0.0, 10.0, 5.5345, 0.5));
             breathParameters.pushBack(new BreathParameterData(this._idParamBodyAngleX, 0.0, 4.0, 15.5345, 0.5));
-            breathParameters.pushBack(new BreathParameterData(CubismFramework.getIdManager().getId(CubismDefaultParameterId.ParamBreath), 0.0, 0.5, 3.2345, 0.5));
+            breathParameters.pushBack(new BreathParameterData(this._idParamBreath, 0.0, 0.5, 3.2345, 0.5));
 
             this._breath.setParameters(breathParameters);
             this._state = LoadStep.LoadUserData;
@@ -682,6 +683,30 @@ export class LAppModel extends CubismUserModel {
         }
     }
 
+    private initParamIdByModel() {
+        if (this._model == null) {
+            throw new Error('live2d _model is null')
+        }
+        const isCafeGun: boolean = !this._model.isMyParameterId(CubismDefaultParameterId.ParamAngleX);
+        if (isCafeGun) { // 双生视界的Paramid定义比较奇葩, 需要单独处理
+            this._idParamAngleX = CubismFramework.getIdManager().getId(CafeGunGirlParam.ParamAngleX);
+            this._idParamAngleY = CubismFramework.getIdManager().getId(CafeGunGirlParam.ParamAngleY);
+            this._idParamAngleZ = CubismFramework.getIdManager().getId(CafeGunGirlParam.ParamAngleZ);
+            this._idParamEyeBallX = CubismFramework.getIdManager().getId(CafeGunGirlParam.ParamEyeBallX);
+            this._idParamEyeBallY = CubismFramework.getIdManager().getId(CafeGunGirlParam.ParamEyeBallY);
+            this._idParamBodyAngleX = CubismFramework.getIdManager().getId(CafeGunGirlParam.ParamBodyAngleX);
+            this._idParamBreath = CubismFramework.getIdManager().getId(CafeGunGirlParam.ParamBreath);
+        } else {
+            this._idParamAngleX = CubismFramework.getIdManager().getId(CubismDefaultParameterId.ParamAngleX);
+            this._idParamAngleY = CubismFramework.getIdManager().getId(CubismDefaultParameterId.ParamAngleY);
+            this._idParamAngleZ = CubismFramework.getIdManager().getId(CubismDefaultParameterId.ParamAngleZ);
+            this._idParamEyeBallX = CubismFramework.getIdManager().getId(CubismDefaultParameterId.ParamEyeBallX);
+            this._idParamEyeBallY = CubismFramework.getIdManager().getId(CubismDefaultParameterId.ParamEyeBallY);
+            this._idParamBodyAngleX = CubismFramework.getIdManager().getId(CubismDefaultParameterId.ParamBodyAngleX);
+            this._idParamBreath = CubismFramework.getIdManager().getId(CubismDefaultParameterId.ParamBreath);
+        }
+    }
+
     public constructor() {
         super();
 
@@ -698,22 +723,6 @@ export class LAppModel extends CubismUserModel {
         this._hitArea = new csmVector<csmRect>();
         this._userArea = new csmVector<csmRect>();
 
-        const isCafeGun: boolean = true;
-        if (isCafeGun) { // 双生视界的Paramid定义比较奇葩, 需要单独处理
-            this._idParamAngleX = CubismFramework.getIdManager().getId(CafeGunGirlParam.ParamAngleX);
-            this._idParamAngleY = CubismFramework.getIdManager().getId(CafeGunGirlParam.ParamAngleY);
-            this._idParamAngleZ = CubismFramework.getIdManager().getId(CafeGunGirlParam.ParamAngleZ);
-            this._idParamEyeBallX = CubismFramework.getIdManager().getId(CafeGunGirlParam.ParamEyeBallX);
-            this._idParamEyeBallY = CubismFramework.getIdManager().getId(CafeGunGirlParam.ParamEyeBallY);
-            this._idParamBodyAngleX = CubismFramework.getIdManager().getId(CafeGunGirlParam.ParamBodyAngleX);
-        } else {
-            this._idParamAngleX = CubismFramework.getIdManager().getId(CubismDefaultParameterId.ParamAngleX);
-            this._idParamAngleY = CubismFramework.getIdManager().getId(CubismDefaultParameterId.ParamAngleY);
-            this._idParamAngleZ = CubismFramework.getIdManager().getId(CubismDefaultParameterId.ParamAngleZ);
-            this._idParamEyeBallX = CubismFramework.getIdManager().getId(CubismDefaultParameterId.ParamEyeBallX);
-            this._idParamEyeBallY = CubismFramework.getIdManager().getId(CubismDefaultParameterId.ParamEyeBallY);
-            this._idParamBodyAngleX = CubismFramework.getIdManager().getId(CubismDefaultParameterId.ParamBodyAngleX);
-        }
         this._state = LoadStep.LoadAssets;
         this._expressionCount = 0;
         this._textureCount = 0;
@@ -740,6 +749,7 @@ export class LAppModel extends CubismUserModel {
     _idParamEyeBallX: CubismIdHandle;
     _idParamEyeBallY: CubismIdHandle;
     _idParamBodyAngleX: CubismIdHandle;
+    _idParamBreath: CubismIdHandle;
 
     _state: number;
     _expressionCount: number;

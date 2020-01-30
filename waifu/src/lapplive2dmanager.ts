@@ -3,6 +3,7 @@ import {Live2DCubismFramework as cubismmatrix44} from "../Framework/math/cubismm
 import {LAppModel} from "./lappmodel";
 import {LAppDefine} from "./lappdefine";
 import {LAppPal} from "./lapppal";
+import {LAppEvent} from './lappevent';
 import {canvas} from "./lappdelegate";
 import Csm_CubismMatrix44 = cubismmatrix44.CubismMatrix44;
 
@@ -49,12 +50,16 @@ export class LAppLive2DManager {
         if (this._model.hitTest(LAppDefine.HitAreaNameHead, x, y)) {
             // this._model.setRandomExpression();
             this._model.startRandomMotion(LAppDefine.MotionGroupTapHead, LAppDefine.PriorityNormal);
+            window.dispatchEvent(LAppEvent.EventHeadTap)
         } else if (this._model.hitTest(LAppDefine.HitAreaNameBreast, x, y)) {
             this._model.startRandomMotion(LAppDefine.MotionGroupTouchBreast, LAppDefine.PriorityNormal);
+            window.dispatchEvent(LAppEvent.EventBreastTap)
         } else if (this._model.hitTest(LAppDefine.HitAreaNameFace, x, y)) {
             this._model.startRandomMotion(LAppDefine.MotionGroupTapFace, LAppDefine.PriorityNormal);
+            window.dispatchEvent(LAppEvent.EventFaceTap)
         } else if (this._model.hitTest(LAppDefine.HitAreaNameBody, x, y)) {
             this._model.startRandomMotion(LAppDefine.MotionGroupTapBody, LAppDefine.PriorityNormal);
+            window.dispatchEvent(LAppEvent.EventBodyTap)
         }
     }
 
